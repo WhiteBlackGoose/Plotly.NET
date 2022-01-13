@@ -172,9 +172,9 @@ module GenericChart =
     let addLayout layout gChart =
         match gChart with
         | Chart (trace,l', c, d) ->
-            Chart (trace, (ImmutableDynamicObj.combine l' layout |> unbox), c, d )
+            Chart (trace, (l' |> ImmutableDynamicObj.combineWith layout), c, d )
         | MultiChart (traces, l', c, d) ->
-            MultiChart (traces, (ImmutableDynamicObj.combine l' layout |> unbox), c, d)
+            MultiChart (traces, (l' |> ImmutableDynamicObj.combineWith layout), c, d)
 
     /// Returns a tuple containing the width and height of a GenericChart's layout if the property is set, otherwise returns None
     let tryGetLayoutSize gChart =
@@ -219,13 +219,13 @@ module GenericChart =
     // Combines two GenericChart
     let combine(gCharts:seq<GenericChart>) =
         let combineLayouts (first:Layout) (second:Layout) =
-            ImmutableDynamicObj.combine first second |> unbox
+            first |> ImmutableDynamicObj.combineWith second
 
         let combineConfigs (first:Config) (second:Config) =
-            ImmutableDynamicObj.combine first second |> unbox
+            first |> ImmutableDynamicObj.combineWith second
 
         let combineDisplayOptions (first:DisplayOptions) (second:DisplayOptions) =
-            ImmutableDynamicObj.combine first second |> unbox
+            first |> ImmutableDynamicObj.combineWith second
 
         gCharts
         |> Seq.reduce (fun acc elem ->

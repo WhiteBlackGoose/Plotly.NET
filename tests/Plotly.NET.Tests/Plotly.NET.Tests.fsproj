@@ -35,6 +35,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Plotly.NET\Plotly.NET.fsproj" />
-    <ProjectReference Include="..\..\src\Plotly.NET.ImageExport\Plotly.NET.ImageExport.fsproj" />
   </ItemGroup>
 </Project>

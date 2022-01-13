@@ -6,6 +6,7 @@ open Plotly.NET.LayoutObjects
 open Plotly.NET.TraceObjects
 open Plotly.NET.GenericChart
 open Plotly.NET.LayoutObjects
+open DynamicObj.Operators
 open System
 
 open TestUtils.HtmlCodegen

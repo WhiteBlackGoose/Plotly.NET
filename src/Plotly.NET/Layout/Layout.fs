@@ -315,13 +315,13 @@ type Layout() =
                 | StyleParam.SubPlotId.XAxis _ | StyleParam.SubPlotId.YAxis _ ->
 
                     let axis' = 
-                        match layout.TryGetValue (StyleParam.SubPlotId.toString id) with
-                        | Some a -> ImmutableDynamicObj.combine (unbox a) axis
-                        | None  -> axis :>  ImmutableDynamicObj
+                        match layout.TryGetTypedValue<LinearAxis> (StyleParam.SubPlotId.toString id) with
+                        | Some a -> a |> ImmutableDynamicObj.combineWith axis
+                        | None  -> axis
 
                     layout
                 
-                    ++ ((StyleParam.SubPlotId.toString id), axis'           )
+                    ++ ((StyleParam.SubPlotId.toString id), axis')
                 | _ -> failwith $"{StyleParam.SubPlotId.toString id} is an invalid subplot id for setting a linear axis on layout"
             )
 
@@ -342,11 +342,11 @@ type Layout() =
         ) =
             (fun (layout:Layout) -> 
                 let scene' = 
-                    match layout.TryGetValue (StyleParam.SubPlotId.toString id) with
-                    | Some a -> ImmutableDynamicObj.combine (unbox a) scene
-                    | None  -> scene :> ImmutableDynamicObj
-                layout
+                    match layout.TryGetTypedValue<Scene> (StyleParam.SubPlotId.toString id) with
+                    | Some a -> a |> ImmutableDynamicObj.combineWith scene
+                    | None  -> scene
 
+                layout
                 ++ ((StyleParam.SubPlotId.toString id), scene' )
             )
 
@@ -363,7 +363,6 @@ type Layout() =
             (fun (layout:Layout) -> 
 
                 layout
-                
                 ++ ((StyleParam.SubPlotId.toString id), geo )
             )
 
@@ -375,11 +374,11 @@ type Layout() =
         ) =
             (fun (layout:Layout) -> 
                 let geo' = 
-                    match layout.TryGetValue (StyleParam.SubPlotId.toString id) with
-                    | Some a -> ImmutableDynamicObj.combine (unbox a) geo
-                    | None  -> geo :> ImmutableDynamicObj
-                layout
+                    match layout.TryGetTypedValue<Geo> (StyleParam.SubPlotId.toString id) with
+                    | Some a -> a |> ImmutableDynamicObj.combineWith geo
+                    | None  -> geo
 
+                layout
                 ++ ((StyleParam.SubPlotId.toString id), geo' )
             )
 
@@ -391,7 +390,6 @@ type Layout() =
             (fun (layout:Layout) -> 
 
                 layout
-            
                 ++ ((StyleParam.SubPlotId.toString id), mapbox )
             )
             
@@ -403,11 +401,11 @@ type Layout() =
         ) =
             (fun (layout:Layout) -> 
                 let mapbox' = 
-                    match layout.TryGetValue (StyleParam.SubPlotId.toString id) with
-                    | Some a -> ImmutableDynamicObj.combine (unbox a) mapbox
-                    | None  -> mapbox :> ImmutableDynamicObj
-                layout
+                    match layout.TryGetTypedValue<Mapbox> (StyleParam.SubPlotId.toString id) with
+                    | Some a -> a |> ImmutableDynamicObj.combineWith mapbox
+                    | None  -> mapbox
 
+                layout
                 ++ ((StyleParam.SubPlotId.toString id), mapbox' )
             )
 
@@ -427,8 +425,8 @@ type Layout() =
 
                 let polar' = 
                     match layout |> Layout.tryGetPolarById(id) with
-                    | Some a  -> ImmutableDynamicObj.combine (unbox a) polar
-                    | None    -> polar :> ImmutableDynamicObj
+                    | Some a  -> a |> ImmutableDynamicObj.combineWith polar
+                    | None    -> polar
 
                 layout
                 
@@ -451,8 +449,8 @@ type Layout() =
 
                 let colorAxis' = 
                     match layout |> Layout.tryGetColorAxisById(id) with
-                    | Some a  -> ImmutableDynamicObj.combine (unbox a) colorAxis
-                    | None    -> colorAxis :> ImmutableDynamicObj
+                    | Some a  -> a |> ImmutableDynamicObj.combineWith colorAxis
+                    | None    -> colorAxis
 
                 layout
                 
@@ -475,8 +473,8 @@ type Layout() =
 
                 let ternary' = 
                     match layout |> Layout.tryGetTernaryById(id) with
-                    | Some a  -> ImmutableDynamicObj.combine (unbox a) ternary
-                    | None    -> ternary :> ImmutableDynamicObj
+                    | Some a  -> a |> ImmutableDynamicObj.combineWith ternary
+                    | None    -> ternary
 
                 layout
                 
